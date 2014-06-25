@@ -1,8 +1,8 @@
 #!/usr/bin/ash
 
 run_hook () {
-	eval "$(echo "orig_fsck_device()"; typedef -f fsck_device | tail -n +2)"
-	eval "$(echo "fsck_device()"; typedef -f auto_fsck_device | tail -n +2)"
+	eval "$(busybox sed 's/fsck_device/orig_fsck_device/' init_functions)"
+	eval "fsck_device(){ auto_fsck_device \$1;}"
 }
 auto_fsck_device() {
 	orig_fsck_device $1;
